@@ -7,7 +7,19 @@ const request = "https://api.hgbrasil.com/finance?format=json&key=1736048a";
 
 void main() async {
   print(await getData());
-  runApp(MaterialApp(home: Home()));
+  runApp(MaterialApp(
+    home: Home(),
+    theme: ThemeData(
+        hintColor: Colors.amber,
+        primaryColor: Colors.amber,
+        inputDecorationTheme: InputDecorationTheme(
+          enabledBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
+          focusedBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
+          hintStyle: TextStyle(color: Colors.amber),
+        )),
+  ));
 }
 
 Future<Map> getData() async {
@@ -55,15 +67,75 @@ class _HomeState extends State<Home> {
                       ),
                     );
                   } else {
-                    dolar = snapshot.data["results"]["currencies"]["USD"];
-                    euro = snapshot.data["results"]["currencies"]["EUR"];
+                    dolar =
+                        snapshot.data["results"]["currencies"]["USD"]["buy"];
+                    euro = snapshot.data["results"]["currencies"]["EUR"]["buy"];
+
                     return SingleChildScrollView(
-                        child: Column(
-                      children: <Widget>[
-                        Icon(Icons.monetization_on,
-                            size: 150.0, color: Colors.amber)
-                      ],
-                    ));
+                      padding: EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Icon(
+                            Icons.monetization_on,
+                            size: 100.0,
+                            color: Colors.amber,
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                              left: 16,
+                              top: 40,
+                              right: 16,
+                              bottom: 20,
+                            ),
+                            child: TextField(
+                            decoration: InputDecoration(
+                              labelText: "Reais",
+                              labelStyle: TextStyle(color: Colors.amber),
+                              border: OutlineInputBorder(),
+                              prefixText: "R\$",
+                            ),
+                            style: TextStyle(
+                              color: Colors.amber, fontSize: 20.0),
+                            )
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                              bottom: 20,
+                            ),
+                            child: TextField(
+                            decoration: InputDecoration(
+                              labelText: "Doláres",
+                              labelStyle: TextStyle(color: Colors.amber),
+                              border: OutlineInputBorder(),
+                              prefixText: "US\$",
+                            ),
+                            style: TextStyle(
+                              color: Colors.amber, fontSize: 20.0),
+                            )
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                              bottom: 20,
+                            ),
+                            child: TextField(
+                            decoration: InputDecoration(
+                              labelText: "Euros",
+                              labelStyle: TextStyle(color: Colors.amber),
+                              border: OutlineInputBorder(),
+                              prefixText: "€",
+                            ),
+                            style: TextStyle(
+                              color: Colors.amber, fontSize: 20.0),
+                            )
+                          )
+                        ],
+                      ),
+                    );
                   }
               }
             }));
